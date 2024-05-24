@@ -1,40 +1,20 @@
-import { Suspense, createContext, use, useState } from "react";
-
-
-const themeContext = createContext<any>(null)
-
-async function getPosts(): Promise<any[]> {
-  const data = await (
-    await fetch("https://jsonplaceholder.typicode.com/posts")
-  ).json();
-  return data;
-}
-
-const Posts = () => {
-  const posts = use(getPosts());
-  const {theme, setTheme} = use(themeContext)
-  return (
-    <>
-    <button onClick={() => setTheme('blue')}>change</button>
-    {posts.map((item) => <p style={{color: theme}}>{item.title}</p>)}
-    </>
-
-    
-  )
-};
+import React, { useState } from 'react'
+import Comp1 from './comps/Comp1'
+import Comp2 from './comps/Comp2'
+import Comp3 from './comps/Comp3'
+import Comp4 from './comps/Comp4'
 
 const App = () => {
-  const [theme , setTheme] = useState('black')
+  const [page , setPage] = useState(1)
   return (
     <div>
-      <themeContext.Provider value={{theme,setTheme}}>
-       <Suspense fallback={<>Loading ...</>}>
-        <Posts />
-      </Suspense> 
-      </themeContext.Provider>
-      
+      <button onClick={() => setPage(prev => prev + 1)}>change</button>
+      {page === 1 && <Comp1 />}
+      {page === 2 && <Comp2 />}
+      {page === 3 && <Comp3 />}
+      {page === 4 && <Comp4 />}
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
